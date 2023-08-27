@@ -1,12 +1,10 @@
 // Copyright 2019 Sarbagya Dhaubanjar. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:nepali_date_picker_example/modes/month_picker_widget.dart';
 import 'package:nepali_date_picker_example/modes/year_picker_widget.dart';
 import 'package:nepali_utils/nepali_utils.dart';
-
 import 'modes/calendar_date_picker_widget.dart';
 import 'modes/calendar_date_range_picker_widget.dart';
 import 'modes/date_picker_widget.dart';

@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -13,14 +12,14 @@ import 'package:nepali_utils/nepali_utils.dart';
 import 'date_picker_common.dart' as common;
 import 'date_utils.dart' as utils;
 
-const Duration _monthScrollDuration = Duration(milliseconds: 200);
+const Duration _monthScrollDuration = Duration(milliseconds: 800);
 
 const double _dayPickerRowHeight = 42.0;
 const int _maxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // One extra row for the day-of-week header.
 const double _maxDayPickerHeight =
     _dayPickerRowHeight * (_maxDayPickerRowCount + 1);
-const double _monthPickerHorizontalPadding = 8.0;
+const double _monthPickerHorizontalPadding = 0.0;
 
 const int _yearPickerColumnCount = 3;
 const double _yearPickerPadding = 16.0;
@@ -377,52 +376,50 @@ class _DatePickerModeToggleButtonState
     final controlColor = colorScheme.onSurface.withOpacity(0.60);
 
     return Container(
-      padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
-      height: _subHeaderHeight,
-      child: Row(
-        children: <Widget>[
-          Flexible(
-            child: Semantics(
-              label: 'Select year',
-              excludeSemantics: true,
-              button: true,
-              child: Container(
-                height: _subHeaderHeight,
-                child: InkWell(
-                  onTap: widget.onTitlePressed,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: Text(
-                            widget.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: textTheme.titleSmall?.copyWith(
-                              color: controlColor,
+        padding: const EdgeInsetsDirectional.only(start: 16, end: 16),
+        height: _subHeaderHeight,
+        child: Container(
+            padding: const EdgeInsetsDirectional.only(start: 50, end: 50),
+            height: _subHeaderHeight,
+            child: Center(
+              child: Semantics(
+                label: 'Select year',
+                excludeSemantics: true,
+                button: true,
+                child: Container(
+                  // width: 300,
+                  // color: Colors.red,
+                  height: _subHeaderHeight,
+                  child: InkWell(
+                    onTap: widget.onTitlePressed,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Card(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              widget.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.titleSmall?.copyWith(
+                                color: controlColor,
+                              ),
                             ),
-                          ),
+                            RotationTransition(
+                              turns: _controller,
+                              child: Icon(
+                                Icons.arrow_drop_down,
+                                color: controlColor,
+                              ),
+                            ),
+                          ],
                         ),
-                        RotationTransition(
-                          turns: _controller,
-                          child: Icon(
-                            Icons.arrow_drop_down,
-                            color: controlColor,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          if (widget.mode == DatePickerMode.day)
-            // Give space for the prev/next month buttons that are underneath this row
-            const SizedBox(width: _monthNavButtonsWidth),
-        ],
-      ),
-    );
+            )));
   }
 
   @override
@@ -774,34 +771,44 @@ class _MonthPickerState extends State<_MonthPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final previousTooltipText =
-        '${NepaliUtils().language == Language.english ? 'Previous Month' : 'अघिल्लो महिना'} ${NepaliDateFormat.yMMMM().format(_previousMonthDate)}';
-    final nextTooltipText =
-        '${NepaliUtils().language == Language.english ? 'Next Month' : 'अर्को महिना'} ${NepaliDateFormat.yMMMM().format(_nextMonthDate)}';
     final controlColor =
         Theme.of(context).colorScheme.onSurface.withOpacity(0.60);
 
     return Semantics(
       child: Column(
-        children: <Widget>[
+        children: [
           Container(
-            padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
+            padding: const EdgeInsetsDirectional.only(start: 16, end: 16),
             height: _subHeaderHeight,
             child: Row(
               children: <Widget>[
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.chevron_left),
-                  color: controlColor,
-                  tooltip: _isDisplayingFirstMonth ? null : previousTooltipText,
-                  onPressed:
-                      _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                Card(
+                  color: Colors.green[300],
+                  child: InkWell(
+                    onTap:
+                        _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.chevron_left,
+                        color: controlColor,
+                      ),
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.chevron_right),
-                  color: controlColor,
-                  tooltip: _isDisplayingLastMonth ? null : nextTooltipText,
-                  onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+                Spacer(),
+                Card(
+                  color: Colors.green[300],
+                  child: InkWell(
+                    onTap: _isDisplayingLastMonth ? null : _handleNextMonth,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: controlColor,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -960,7 +967,7 @@ class _DayPickerState extends State<_DayPicker> {
   /// returned list corresponds to the first day of week for the current locale.
   List<Widget> _dayHeaders(TextStyle? headerStyle) {
     return (NepaliUtils().language == Language.english
-            ? ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+            ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
             : ['आ', 'सो', 'मं', 'बु', 'वि', 'शु', 'श'])
         .map<Widget>(
           (label) => ExcludeSemantics(
@@ -977,6 +984,7 @@ class _DayPickerState extends State<_DayPicker> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final headerStyle = textTheme.bodySmall?.apply(
+      fontSizeDelta: 4.0,
       color: colorScheme.onSurface.withOpacity(0.60),
     );
     final dayStyle = textTheme.bodySmall;
