@@ -395,6 +395,7 @@ class _DatePickerModeToggleButtonState
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Card(
+                        color: Colors.grey[200],
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
