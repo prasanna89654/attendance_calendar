@@ -395,7 +395,7 @@ class _DatePickerModeToggleButtonState
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Card(
-                        color: Colors.grey[200],
+                        color: Colors.grey[100],
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -784,7 +784,8 @@ class _MonthPickerState extends State<_MonthPicker> {
             child: Row(
               children: <Widget>[
                 Card(
-                  color: Colors.green[300],
+                  elevation: 2,
+                  color: Colors.grey[100],
                   child: InkWell(
                     onTap:
                         _isDisplayingFirstMonth ? null : _handlePreviousMonth,
@@ -799,7 +800,7 @@ class _MonthPickerState extends State<_MonthPicker> {
                 ),
                 Spacer(),
                 Card(
-                  color: Colors.green[300],
+                     color: Colors.grey[100],
                   child: InkWell(
                     onTap: _isDisplayingLastMonth ? null : _handleNextMonth,
                     child: Padding(
